@@ -9,7 +9,7 @@ check_file <- function(data)
   if(is.character(unlist(data)))
   {
     shinyalert("Type Error","Uploaded data includes characters",type="error")
-    is_correct = FALSE
+    return(FALSE)
   }
   if(all(data%%1==0))
   {
@@ -39,7 +39,7 @@ handle_file <-function(file, name)
     {names(data)[1] <- name
     return(data)
     }
-    returnValue()
+    return(NULL)
   }
 }
 
