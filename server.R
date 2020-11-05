@@ -23,12 +23,12 @@ server <- function(input, output, session) {
   observeEvent(c(v$used_edata, v$used_cdata), 
                {
                  validate(need(v$used_edata, ''), need(v$used_cdata, ''))
-                 if(all(v$used_cdata==v$used_edata)) {shinyalert("Warning","Uploaded files have the same content",
-                                                                 type="warning")}
                  if(erow()!=crow()) {shinyalert("Warning","Uploaded files have different lengths",
                                                 type="warning")}
+                 else if(all(v$used_cdata==v$used_edata)) {shinyalert("Warning","Uploaded files have the same content",
+                                                                 type="warning")}
                },
-               ignoreInit = TRUE)
+               ignoreInit = FALSE)
   
   output$ccontents <- renderTable({v$used_cdata})
   output$econtents <- renderTable({v$used_edata})
