@@ -4,5 +4,4 @@ library(tools)
 library(shinythemes)
 library(shinyalert)
 
-
 shinyApp(ui, server)

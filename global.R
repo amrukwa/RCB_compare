@@ -1,29 +1,29 @@
-check_file <- function(data)
+check_file <- function(data, name)
 {
   is_correct = TRUE
   if(ncol(data)!=1)
   {
-    shinyalert("Column Error","Uploaded data doesn't have 1 column",type="error")
+    shinyalert("Column Error", paste("Uploaded data -", name, "- doesn't have 1 column"),type="error")
     is_correct = FALSE
   }
   if(is.character(unlist(data)))
   {
-    shinyalert("Type Error","Uploaded data includes characters",type="error")
+    shinyalert("Type Error", paste("Uploaded data -", name, "- includes characters"),type="error")
     return(FALSE)
   }
   if(all(data%%1==0))
   {
-    shinyalert("Type Error","Uploaded data includes only integers",type="error")
+    shinyalert("Type Error", paste("Uploaded data -", name, "- includes only integers"),type="error")
     is_correct = FALSE
   }
   if(any(data > 10))
   {
-    shinyalert("Type Error","Uploaded data includes numbers bigger than 10",type="error")
+    shinyalert("Type Error", paste("Uploaded data -", name, "- includes numbers bigger than 10"),type="error")
     is_correct = FALSE
   }
   if(any(data < 0))
   {
-    shinyalert("Type Error","Uploaded data includes negative numbers",type="error")
+    shinyalert("Type Error", paste("Uploaded data -", name, "- includes negative numbers"),type="error")
     is_correct = FALSE
   }
   return(is_correct)
@@ -35,7 +35,7 @@ handle_file <-function(file, name)
   else
   {
     data<-read.csv(file$datapath)
-    if (check_file(data))
+    if (check_file(data, name))
     {names(data)[1] <- name
     return(data)
     }
