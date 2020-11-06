@@ -11,7 +11,7 @@ check_file <- function(data, name)
     shinyalert("Type Error", paste("Uploaded data -", name, "- includes characters"),type="error")
     return(FALSE)
   }
-  if(all(data%%1==0))
+  if(all(data%%1==0) && any(data!=0))
   {
     shinyalert("Type Error", paste("Uploaded data -", name, "- includes only integers"),type="error")
     is_correct = FALSE

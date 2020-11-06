@@ -7,12 +7,12 @@ server <- function(input, output, session) {
   v <- reactiveValues(used_cdata=NULL, used_edata=NULL, gen=NULL)
   cdata <- reactive({handle_file(input$control_file, input$control_name)})
   edata <- reactive({handle_file(input$exp_file, input$exp_name)})
-  observeEvent(input$up_df, v$used_edata <- ({
+  observeEvent(input$generate_plot, v$used_edata <- ({
     if(!input$exemplary_files){edata()}
     else
     {load_exemplary("experimental", input$exp_name)}
   }))
-  observeEvent(input$up_df, v$used_cdata <- ({
+  observeEvent(input$generate_plot, v$used_cdata <- ({
     if(!input$exemplary_files){cdata()}
     else
     {load_exemplary("control", input$control_name)}
@@ -23,12 +23,9 @@ server <- function(input, output, session) {
   observeEvent(c(v$used_edata, v$used_cdata), 
                {
                  validate(need(v$used_edata, ''), need(v$used_cdata, ''))
-                 if(erow()!=crow()) {shinyalert("Warning","Uploaded files have different lengths",
-                                                type="warning")}
-                 else if(all(v$used_cdata==v$used_edata)) {shinyalert("Warning","Uploaded files have the same content",
-                                                                 type="warning")}
-               },
-               ignoreInit = FALSE)
+                 if(erow()==crow()) {if(all(v$used_cdata==v$used_edata)) {shinyalert("Warning","Uploaded files have the same content",
+                                                                                     type="warning")}}
+               })
   
   output$ccontents <- renderTable({v$used_cdata})
   output$econtents <- renderTable({v$used_edata})
