@@ -3,5 +3,5 @@ library(ggplot2)
 library(tools)
 library(shinythemes)
 library(shinyalert)
-
+library(shinyjs)
 shinyApp(ui, server)

@@ -17,7 +17,7 @@ server <- function(input, output, session) {
     else
     {load_exemplary("control", input$control_name)}
   }))
-  observeEvent(input$generate_plot, v$gen <- names(v$used_cdata)[1])
+  observeEvent(input$generate_plot, v$gen <- qplot(v$used_cdata$control, geom="histogram") )
   erow <- reactive({nrow(v$used_edata)})
   crow <- reactive({nrow(v$used_cdata)})
   observeEvent(c(v$used_edata, v$used_cdata), 
@@ -31,34 +31,26 @@ server <- function(input, output, session) {
   output$econtents <- renderTable({v$used_edata})
   output$ncontrol <- renderText({crow()})
   output$nexp <- renderText({erow()})
-  output$nexp1 <- renderText({
+  output$nexp1 <- renderPlot({
     validate(
-      need(global$datapath, "Choose the directory to save the results."),
       need(v$used_edata, 'Choose correct experimental treatment file.'),
       need(v$used_cdata, 'Choose correct control treatment file.'),
       need(input$generate_plot, "Click 'calculate' after updating files.")
     )
     v$gen})
   
-  shinyDirChoose(
-    input,
-    'dir',
-    roots = c(wd = 'C:'),
-    filetypes = c(''))
-  
-  global <- reactiveValues(datapath = NULL)
-  dir <- reactive(input$dir)
-  output$dir <- renderText({
-    global$datapath
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("plot", Sys.Date(), ".pdf", sep="")
+    },
+    content = function(file) {
+      ggsave(v$gen, filename = file)
+    }
+    )
+  observeEvent(input$generate_plot, {
+    if (is.null(v$used_edata) || is.null(v$used_cdata))
+      shinyjs::hide("downloadData")
+    else
+      shinyjs::show("downloadData")
   })
-  
-  observeEvent(ignoreNULL = TRUE,
-               eventExpr = {input$dir},
-               handlerExpr = {
-                 if (!"path" %in% names(dir())) return()
-                 home <- normalizePath("~")
-                 global$datapath <-
-                   file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-               })
-  
 }

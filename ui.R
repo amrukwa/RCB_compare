@@ -1,4 +1,5 @@
 ui <- fluidPage(theme = shinytheme("slate"),
+                shinyjs::useShinyjs(),
                 useShinyalert(),
                 br(),
                 sidebarPanel(selectInput("method", 
@@ -19,9 +20,6 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                                                 accept = c(".txt"))),
                              tags$div(title=exemp, checkboxInput(inputId = "exemplary_files",
                                                                  label = "Use exemplary data instead")),
-                             tags$div(title="Choose the folder to save the plots and results",
-                                      shinyDirButton("dir", "Save to", "Choose the folder")),
-                             verbatimTextOutput("dir", placeholder = TRUE),
                              actionButton(inputId = "generate_plot",
                                           label = "Calculate"), br(),
                              column(1, HTML(paste0("N",tags$sub("control"), ": "))),  
@@ -33,6 +31,6 @@ ui <- fluidPage(theme = shinytheme("slate"),
                   tabPanel("The data", br(), h4("Datasets to compare"),
                            column(1, tableOutput("ccontents")), column(2, tableOutput("econtents"))
                   ),
-                  tabPanel("The plot", textOutput("nexp1"))
+                  tabPanel("The plot", plotOutput("nexp1"), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
                 ))
 )
