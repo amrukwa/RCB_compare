@@ -62,6 +62,15 @@ load_exemplary <- function(example_type, name)
   }
 }
 
+load_data <- function(is_exemplary, file, name=NULL, example_type = NULL)
+{
+  data <- NULL
+  if(!is_exemplary){
+    file
+  }else{
+      load_exemplary(example_type, name)
+  }
+}
 
 inf_file <- "The input file must be a txt file. It should consist of one column of RCB scores, not categories."
 inf_name <- "Specify the name of the treatment. This will also update the name in the results and the plot."
