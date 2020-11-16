@@ -34,7 +34,7 @@ handle_file <-function(file, name)
   if(is.null(file)) {returnValue()}
   else
   {
-    data<-read.csv(file$datapath)
+    data<-read.csv(file$datapath, header = FALSE)
     if (check_file(data, name))
     {names(data)[1] <- name
     return(data)
@@ -43,8 +43,8 @@ handle_file <-function(file, name)
   }
 }
 
-exemplary_cdata<-read.csv("./Data/Ctrl_treat.txt")
-exemplary_edata<-read.csv("./Data/Exp_treat.txt")
+exemplary_cdata<-read.csv("./Data/Ctrl_treat.txt", header = FALSE)
+exemplary_edata<-read.csv("./Data/Exp_treat.txt", header = FALSE)
 
 load_exemplary <- function(example_type, name)
 {
