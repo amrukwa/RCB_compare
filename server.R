@@ -24,9 +24,10 @@ server <- function(input, output, session) {
   output$nexp <- renderText({erow()})
   output$nexp1 <- renderPlot({
     validate(need(tables$used_edata, "Specify the correct experimental treatment."), need(tables$used_cdata, "Specify the correct control treatment."))
-    v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
+    withBusyIndicatorServer("generate_plot",
+    {v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
     v$gen <- grid.arrange(v$res_TES[["Plot1"]],v$res_TES[["Plot2"]],nrow=2)
-    v$gen
+    v$gen})
     })
   
   output$downloadData <- downloadHandler(
