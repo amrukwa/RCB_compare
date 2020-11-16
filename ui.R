@@ -29,8 +29,9 @@ ui <- fluidPage(theme = shinytheme("slate"),
                 ),
                 mainPanel(tabsetPanel(
                   tabPanel("The data", br(), h4("Datasets to compare"),
-                           column(1, tableOutput("ccontents")), column(2, tableOutput("econtents"))
+                           column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
+                           column(2, shinycssloaders::withSpinner(tableOutput("econtents")))
                   ),
-                  tabPanel("The plot", plotOutput("nexp1"), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
+                  tabPanel("The plot", shinycssloaders::withSpinner(plotOutput("nexp1")), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
                 ))
 )
