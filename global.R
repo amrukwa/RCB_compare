@@ -1,3 +1,6 @@
+tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
+libs <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
+check_libs(libs)
 check_file <- function(data, name)
 {
   is_correct = TRUE
@@ -64,7 +67,6 @@ load_exemplary <- function(example_type, name)
 
 load_data <- function(is_exemplary, file, name=NULL, example_type = NULL)
 {
-  data <- NULL
   if(!is_exemplary){
     file
   }else{

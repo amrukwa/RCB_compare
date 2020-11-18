@@ -1,4 +1,5 @@
 source("helpers.R")
+
 ui <- fluidPage(theme = shinytheme("slate"),
                 shinyjs::useShinyjs(),
                 useShinyalert(),
@@ -22,7 +23,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              tags$div(title=exemp, checkboxInput(inputId = "exemplary_files",
                                                                  label = "Use exemplary data instead")),
                              withBusyIndicatorUI(actionButton(inputId = "generate_plot",
-                                          label = "Calculate", class = "btn-primary")), br(),
+                                                              label = "Calculate", class = "btn-primary")), br(),
                              column(1, HTML(paste0("N",tags$sub("control"), ": "))),  
                              column(2, textOutput("ncontrol"), offset=1), br(),
                              column(1, HTML(paste0("N",tags$sub("experimental"), ": "))), 
@@ -33,6 +34,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                            column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
                            column(2, shinycssloaders::withSpinner(tableOutput("econtents")))
                   ),
-                  tabPanel("The plot", shinycssloaders::withSpinner(plotOutput("nexp1")), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
+                  tabPanel("The plot", shinycssloaders::withSpinner(plotOutput("plot")), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
                 ))
+                
 )

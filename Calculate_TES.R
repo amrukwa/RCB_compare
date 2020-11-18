@@ -6,11 +6,7 @@ calculate_TES <- function(method, ctrl, exp)
   n_cores <- 1
   grp_ctrl_name <- names(ctrl)[1]
   grp_exp_name <- names(exp)[1]
-  
-  # Loading or installing necessary R libraries
-  libs <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra")
-  check_libs(libs)
-  
+
   # Loading RCB score values
   RCB_ctrl <- ctrl[,1]
   RCB_exp <- exp[,1]
@@ -22,4 +18,3 @@ calculate_TES <- function(method, ctrl, exp)
                     DensDiff = DensDiff(RCB_ctrl, RCB_exp, n_perm=n_perm, sig="auto", n_cores=n_cores, grp_ctrl_name=grp_ctrl_name, grp_exp_name=grp_exp_name))
   res_TES
 }
-

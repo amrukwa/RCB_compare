@@ -1,3 +1,5 @@
+# Functions disabling "Calculate" button during calculations
+
 withBusyIndicatorCSS <- "
 .btn-loading-container {
 margin-left: 10px;
