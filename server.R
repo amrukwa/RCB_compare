@@ -1,64 +1,55 @@
-library(ggplot2)
-library(tools)
-library(shinythemes)
-library(shinyalert)
+source('Calculate_TES.R')
 
 server <- function(input, output, session) {
-  v <- reactiveValues(used_cdata=NULL, used_edata=NULL, gen=NULL)
+  # prepare reactive values
+  v <- reactiveValues(gen=NULL, res_TES=NULL, method=NULL)
+  tables <- reactiveValues(used_cdata=NULL, used_edata=NULL)
+  # load the user files
   cdata <- reactive({handle_file(input$control_file, input$control_name)})
   edata <- reactive({handle_file(input$exp_file, input$exp_name)})
-  observeEvent(input$generate_plot, v$used_edata <- ({
-    if(!input$exemplary_files){edata()}
-    else
-    {load_exemplary("experimental", input$exp_name)}
-  }))
-  observeEvent(input$generate_plot, v$used_cdata <- ({
-    if(!input$exemplary_files){cdata()}
-    else
-    {load_exemplary("control", input$control_name)}
-  }))
-  observeEvent(input$generate_plot, v$gen <- names(v$used_cdata)[1])
-  erow <- reactive({nrow(v$used_edata)})
-  crow <- reactive({nrow(v$used_cdata)})
-  observeEvent(c(v$used_edata, v$used_cdata), 
+  # load the specified files - be it the user files already prepared or the exemplary
+  observeEvent(input$generate_plot, {
+    v$method <- input$method
+    tables$used_edata <- load_data(input$exemplary_files, edata(),input$exp_name, "experimental")
+    tables$used_cdata <- load_data(input$exemplary_files, cdata(),input$control_name, "control")
+    })
+  # get the number of rows
+  erow <- reactive({nrow(tables$used_edata)})
+  crow <- reactive({nrow(tables$used_cdata)})
+  # check if the files have different content
+  observeEvent(c(tables$used_edata, tables$used_cdata), 
                {
-                 validate(need(v$used_edata, ''), need(v$used_cdata, ''))
-                 if(erow()==crow()) {if(all(v$used_cdata==v$used_edata)) {shinyalert("Warning","Uploaded files have the same content",
+                 validate(need(tables$used_edata, ''), need(tables$used_cdata, ''))
+                 if(erow()==crow()) {if(all(tables$used_cdata==tables$used_edata)) {shinyalert("Warning","Uploaded files have the same content",
                                                                                      type="warning")}}
                })
-  
-  output$ccontents <- renderTable({v$used_cdata})
-  output$econtents <- renderTable({v$used_edata})
+  # display the tables and their lengths
+  output$ccontents <- renderTable({tables$used_cdata})
+  output$econtents <- renderTable({tables$used_edata})
   output$ncontrol <- renderText({crow()})
   output$nexp <- renderText({erow()})
-  output$nexp1 <- renderText({
-    validate(
-      need(global$datapath, "Choose the directory to save the results."),
-      need(v$used_edata, 'Choose correct experimental treatment file.'),
-      need(v$used_cdata, 'Choose correct control treatment file.'),
-      need(input$generate_plot, "Click 'calculate' after updating files.")
-    )
+  # calculate and show TES, plot
+  output$plot <- renderPlot({
+    validate(need(tables$used_edata, "Specify the correct experimental treatment."), need(tables$used_cdata, "Specify the correct control treatment."))
+    withBusyIndicatorServer("generate_plot",
+    {v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
+    v$gen <- grid.arrange(v$res_TES[["Plot1"]],v$res_TES[["Plot2"]],nrow=2)
     v$gen})
-  
-  shinyDirChoose(
-    input,
-    'dir',
-    roots = c(wd = 'C:'),
-    filetypes = c(''))
-  
-  global <- reactiveValues(datapath = NULL)
-  dir <- reactive(input$dir)
-  output$dir <- renderText({
-    global$datapath
+    })
+  # prepare plot for download
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("plot", Sys.Date(), ".pdf", sep="")
+    },
+    content = function(file) {
+      ggsave(v$gen, filename = file)
+    }
+    )
+  # show the download button
+  observeEvent(v$res_TES, {
+    if (is.null(tables$used_edata) || is.null(tables$used_cdata))
+      shinyjs::hide("downloadData")
+    else
+      shinyjs::show("downloadData")
   })
-  
-  observeEvent(ignoreNULL = TRUE,
-               eventExpr = {input$dir},
-               handlerExpr = {
-                 if (!"path" %in% names(dir())) return()
-                 home <- normalizePath("~")
-                 global$datapath <-
-                   file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-               })
-  
 }

@@ -1,11 +1,14 @@
+source("helpers.R")
+
 ui <- fluidPage(theme = shinytheme("slate"),
+                shinyjs::useShinyjs(),
                 useShinyalert(),
                 br(),
                 sidebarPanel(selectInput("method", 
                                          label = "Select TES calculation method",
-                                         choices = list("Weighted two-sample Kolmogorov-Smirnov test", 
-                                                        "Density ratio of RCB scores from two treatments",
-                                                        "Density difference of RCB scores from two treatments"),
+                                         choices = list("Weighted two-sample Kolmogorov-Smirnov test"="wKS", 
+                                                        "Density ratio of RCB scores from two treatments"="DensRatio",
+                                                        "Density difference of RCB scores from two treatments"= "DensDiff"),
                                          selected = "Weighted two-sample Kolmogorov-Smirnov test"),
                              tags$div(title=inf_name, textInput("control_name", 
                                                                 "Name of the treatment (optional)", "control")),
@@ -19,11 +22,8 @@ ui <- fluidPage(theme = shinytheme("slate"),
                                                                 accept = c(".txt"))),
                              tags$div(title=exemp, checkboxInput(inputId = "exemplary_files",
                                                                  label = "Use exemplary data instead")),
-                             tags$div(title="Choose the folder to save the plots and results",
-                                      shinyDirButton("dir", "Save to", "Choose the folder")),
-                             verbatimTextOutput("dir", placeholder = TRUE),
-                             actionButton(inputId = "generate_plot",
-                                          label = "Calculate"), br(),
+                             withBusyIndicatorUI(actionButton(inputId = "generate_plot",
+                                                              label = "Calculate", class = "btn-primary")), br(),
                              column(1, HTML(paste0("N",tags$sub("control"), ": "))),  
                              column(2, textOutput("ncontrol"), offset=1), br(),
                              column(1, HTML(paste0("N",tags$sub("experimental"), ": "))), 
@@ -31,8 +31,10 @@ ui <- fluidPage(theme = shinytheme("slate"),
                 ),
                 mainPanel(tabsetPanel(
                   tabPanel("The data", br(), h4("Datasets to compare"),
-                           column(1, tableOutput("ccontents")), column(2, tableOutput("econtents"))
+                           column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
+                           column(2, shinycssloaders::withSpinner(tableOutput("econtents")))
                   ),
-                  tabPanel("The plot", textOutput("nexp1"))
+                  tabPanel("The plot", shinycssloaders::withSpinner(plotOutput("plot")), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
                 ))
+                
 )

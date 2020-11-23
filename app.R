@@ -1,7 +1,3 @@
-library(shiny)
-library(ggplot2)
-library(tools)
-library(shinythemes)
-library(shinyalert)
-
+source("helpers.R")
+source('Calculate_TES.R')
 shinyApp(ui, server)

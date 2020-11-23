@@ -1,3 +1,6 @@
+tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
+libs <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
+check_libs(libs)
 check_file <- function(data, name)
 {
   is_correct = TRUE
@@ -34,7 +37,7 @@ handle_file <-function(file, name)
   if(is.null(file)) {returnValue()}
   else
   {
-    data<-read.csv(file$datapath)
+    data<-read.csv(file$datapath, header = FALSE)
     if (check_file(data, name))
     {names(data)[1] <- name
     return(data)
@@ -43,8 +46,8 @@ handle_file <-function(file, name)
   }
 }
 
-exemplary_cdata<-read.csv("./Data/Ctrl_treat.txt")
-exemplary_edata<-read.csv("./Data/Exp_treat.txt")
+exemplary_cdata<-read.csv("./Data/Ctrl_treat.txt", header = FALSE)
+exemplary_edata<-read.csv("./Data/Exp_treat.txt", header = FALSE)
 
 load_exemplary <- function(example_type, name)
 {
@@ -62,6 +65,14 @@ load_exemplary <- function(example_type, name)
   }
 }
 
+load_data <- function(is_exemplary, file, name=NULL, example_type = NULL)
+{
+  if(!is_exemplary){
+    file
+  }else{
+      load_exemplary(example_type, name)
+  }
+}
 
 inf_file <- "The input file must be a txt file. It should consist of one column of RCB scores, not categories."
 inf_name <- "Specify the name of the treatment. This will also update the name in the results and the plot."
