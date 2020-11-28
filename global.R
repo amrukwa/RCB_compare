@@ -1,6 +1,6 @@
 tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
-libs <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
-check_libs(libs)
+my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
+lapply(my_packages, require, character.only = TRUE)
 check_file <- function(data, name)
 {
   is_correct = TRUE
