@@ -35,7 +35,7 @@ server <- function(input, output, session) {
     {v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
     v$gen <- grid.arrange(v$res_TES[["Plot1"]],v$res_TES[["Plot2"]],nrow=2)
     v$gen})
-    })
+    }, height=550, width=550)
   # prepare plot for download
   output$downloadData <- downloadHandler(
     filename = function() {

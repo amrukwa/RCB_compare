@@ -4,7 +4,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                 shinyjs::useShinyjs(),
                 useShinyalert(),
                 br(),
-                sidebarPanel(selectInput("method", 
+                sidebarPanel2(selectInput("method", 
                                          label = "Select TES calculation method",
                                          choices = list("Weighted two-sample Kolmogorov-Smirnov test"="wKS", 
                                                         "Density ratio of RCB scores from two treatments"="DensRatio",
@@ -27,14 +27,17 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              column(1, HTML(paste0("N",tags$sub("control"), ": "))),  
                              column(2, textOutput("ncontrol"), offset=1), br(),
                              column(1, HTML(paste0("N",tags$sub("experimental"), ": "))), 
-                             column(2, textOutput("nexp"), offset=1), br()
+                             column(2, textOutput("nexp"), offset=1), br(), br(), br(),
+                             out = includeHTML("www/include.html")
                 ),
                 mainPanel(tabsetPanel(
                   tabPanel("The data", br(), h4("Datasets to compare"),
                            column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
                            column(2, shinycssloaders::withSpinner(tableOutput("econtents")))
                   ),
-                  tabPanel("The plot", shinycssloaders::withSpinner(plotOutput("plot")), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
+                  tabPanel("The plot", shinycssloaders::withSpinner(plotOutput("plot", width = "100%", height = "100%")), 
+                          br(), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
                 ))
+                
                 
 )
