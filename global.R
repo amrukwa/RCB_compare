@@ -82,9 +82,6 @@ sidebarPanel2 <- function (..., out = NULL, width=4)
 {
   div(class = paste0("col-sm-", width), 
       tags$form(class = "well", ...),
-      out, br(), br(), 
-      img(src='polsl.png', align = "center", width="50%"), br(),
-      img(src='shield.jfif', align = "left", width="7.5%"), br(),
-      div(img(src='wordmark.jfif', width="50%"), style="display: block; margin-left: 75px; margin-right: auto;")
+      out
   )
 }
