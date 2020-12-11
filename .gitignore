@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 packrat/lib*/
+packrat/packrat.opts
+packrat/src/processx/processx_3.4.5.tar.gz

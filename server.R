@@ -39,7 +39,7 @@ server <- function(input, output, session) {
   # prepare plot for download
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("plot", Sys.Date(), ".pdf", sep="")
+      paste("TES_plot_", input$control_name, "_", input$exp_name, ".pdf", sep="")
     },
     content = function(file) {
       ggsave(v$gen, filename = file)

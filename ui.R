@@ -39,7 +39,7 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              out = includeHTML("www/include.html")
                 ),
                 mainPanel(tabsetPanel(
-                  tabPanel("Data", br(), h4("Datasets to compare"),
+                  tabPanel("Data", br(), h4("RCB scores by treatment to be compared"),
                            column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
                            column(2, shinycssloaders::withSpinner(tableOutput("econtents")))
                   ),
