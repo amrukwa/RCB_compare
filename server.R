@@ -2,7 +2,7 @@ source('Calculate_TES.R')
 
 server <- function(input, output, session) {
   # prepare reactive values
-  v <- reactiveValues(gen=NULL, res_TES=NULL, method=NULL)
+  v <- reactiveValues(gen=NULL, res_TES=NULL, method=NULL, to_save=NULL)
   tables <- reactiveValues(used_cdata=NULL, used_edata=NULL)
   # load the user files
   cdata <- reactive({handle_file(input$control_file, input$control_name)})
@@ -33,16 +33,21 @@ server <- function(input, output, session) {
     validate(need(tables$used_edata, "Specify the correct experimental treatment."), need(tables$used_cdata, "Specify the correct control treatment."))
     withBusyIndicatorServer("generate_plot",
     {v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
-    v$gen <- grid.arrange(v$res_TES[["Plot1"]],v$res_TES[["Plot2"]],nrow=2)
+    v$to_save <- grid.arrange(v$res_TES[["Plot1"]], 
+                          v$res_TES[["Plot2"]], 
+                          nrow=2)
+    v$gen <- grid.arrange(v$res_TES[["Plot1"]] + plot_theme, 
+                          v$res_TES[["Plot2"]] + plot_theme, 
+                      nrow=2)
     v$gen})
-    }, height=550, width=550)
+    }, height=550, width=550, bg="transparent", execOnResize = TRUE)
   # prepare plot for download
   output$downloadData <- downloadHandler(
     filename = function() {
       paste("TES_plot_", input$control_name, "_", input$exp_name, ".pdf", sep="")
     },
     content = function(file) {
-      ggsave(v$gen, filename = file)
+      ggsave(v$to_save, filename = file)
     }
     )
   # show the download button

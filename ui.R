@@ -39,11 +39,11 @@ ui <- fluidPage(theme = shinytheme("slate"),
                              out = includeHTML("www/include.html")
                 ),
                 mainPanel(tabsetPanel(
-                  tabPanel("Data", br(), h4("RCB scores by treatment to be compared"),
+                  tabPanel("Data", br(), h4("Patient level RCB score"),
                            column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
                            column(2, shinycssloaders::withSpinner(tableOutput("econtents")))
                   ),
-                  tabPanel("Plots", shinycssloaders::withSpinner(plotOutput("plot", width = "100%", height = "100%")), 
+                  tabPanel("TES Plots", shinycssloaders::withSpinner(plotOutput("plot", width = "100%", height = "100%")), 
                           br(), shinyjs::hidden(downloadButton("downloadData", "Download the plot")))
                 ))
                 

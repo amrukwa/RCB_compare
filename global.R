@@ -1,6 +1,12 @@
 tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
 my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
 lapply(my_packages, require, character.only = TRUE)
+
+plot_theme <- theme(plot.background = element_rect(fill=alpha('#2F3635', 0.1), colour=alpha('#2F3635', 0.05)),
+                    panel.background = element_rect(fill=alpha('#2F3635', 0.04), colour=alpha('#2F3635', 0.02)),
+                    panel.grid.major = element_line(colour=alpha('#2F3635', 0.1)), 
+                    panel.grid.minor = element_line(colour=alpha('#2F3635', 0.1)),
+                    legend.background=element_rect(fill=alpha('#2F3635', 0.02), colour=alpha('#2F3635', 0.01)))
 check_file <- function(data, name)
 {
   is_correct = TRUE
