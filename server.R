@@ -24,8 +24,8 @@ server <- function(input, output, session) {
                                                                                      type="warning")}}
                })
   # display the tables and their lengths
-  output$ccontents <- renderTable({tables$used_cdata})
-  output$econtents <- renderTable({tables$used_edata})
+  output$ccontents <- renderTable({tables$used_cdata}, align='c')
+  output$econtents <- renderTable({tables$used_edata}, align='c')
   output$ncontrol <- renderText({crow()})
   output$nexp <- renderText({erow()})
   # calculate and show TES, plot
@@ -42,7 +42,7 @@ server <- function(input, output, session) {
     v$gen})
     }, height=550, width=550, bg="transparent", execOnResize = TRUE)
   # prepare plot for download
-  output$downloadData <- downloadHandler(
+  output$downloadData1 <- downloadHandler(
     filename = function() {
       paste("TES_plot_", input$control_name, "_", input$exp_name, ".pdf", sep="")
     },
@@ -50,11 +50,22 @@ server <- function(input, output, session) {
       ggsave(v$to_save, filename = file)
     }
     )
+  output$downloadData2 <- downloadHandler(
+    filename = function() {
+      paste("TES_plot_", input$control_name, "_", input$exp_name, ".tiff", sep="")
+    },
+    content = function(file) {
+      ggsave(v$to_save, filename = file)
+    }
+  )
   # show the download button
   observeEvent(v$res_TES, {
-    if (is.null(tables$used_edata) || is.null(tables$used_cdata))
-      shinyjs::hide("downloadData")
-    else
-      shinyjs::show("downloadData")
+    if (is.null(tables$used_edata) || is.null(tables$used_cdata)){
+      shinyjs::hide("downloadData1")
+      shinyjs::hide("downloadData2")
+    }else{
+      shinyjs::show("downloadData1")
+      shinyjs::show("downloadData2")
+    }
   })
 }
