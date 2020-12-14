@@ -2,7 +2,7 @@
 
 withBusyIndicatorCSS <- "
 .btn-loading-container {
-margin-left: 10px;
+margin-left: 1px;
 font-size: 1.2em;
 }
 .btn-done-indicator {
