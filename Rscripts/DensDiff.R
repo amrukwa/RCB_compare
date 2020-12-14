@@ -44,8 +44,10 @@ DensDiff <- function(RCB_ctrl, RCB_exp, n_perm=10000, sig="auto", lam=10^seq(-2,
   data_plot$Group <- c(rep(grp_ctrl_name,length(RCB_ctrl)), rep(grp_exp_name,length(RCB_exp)))
   p1 <- ggplot(data_plot,aes(col=Group, x=RCBscore)) + geom_density() + 
     labs(x="Residual Cancer Burden score", y="Density", 
-         title=paste0("Treatment Efficacy Score = ",signif(TES,3), ". P = ",signif(TES_p,2))) +
-    theme_bw() + theme(legend.position="bottom", plot.title=element_text(hjust=0.5, color="red", face="bold", size=18))
+         title=paste0("Treatment Efficacy Score = ",signif(TES,3), " (P = ",signif(TES_p,2), ")")) +
+    scale_color_manual(values=c(alpha("#157525", 0.8), alpha("#CD0000", 0.8))) +
+    guides(color = guide_legend(override.aes = list(fill =c(alpha("#157525", 0.8), alpha("#CD0000", 0.8))))) +
+    theme_bw() + theme(legend.position="bottom", plot.title=element_text(hjust=0.5, color="black", face="bold", size=18))
   
   # return results
   res <- list()
