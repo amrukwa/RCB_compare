@@ -1,6 +1,7 @@
 source("helpers.R")
 
-ui <- fluidPage(#tags$head(tags$style(css)),
+ui <- fluidPage(
+                tags$head(tags$style(css2)),
                 theme = shinytheme("slate"),
                 shinyjs::useShinyjs(),
                 useShinyalert(),
@@ -21,32 +22,33 @@ ui <- fluidPage(#tags$head(tags$style(css)),
                              tags$div(title=inf_file, fileInput(inputId = "exp_file",
                                                                 label = "Upload the RCB scores from experimental treatment",
                                                                 accept = c(".txt"))),
-                             tags$div(title=exemp, checkboxInput(inputId = "exemplary_files",
-                                                                 label = "Use exemplary data instead")),
-                             column(3, withBusyIndicatorUI(actionButton(inputId = "generate_plot",
+                             fluidRow(column(3, tags$div(title=exemp, prettySwitch(inputId = "exemplary_files",
+                                                                 label = "Use exemplary data instead", fill=TRUE)))),
+                             fluidRow(column(3, withBusyIndicatorUI(actionButton(inputId = "generate_plot",
                                                               label = "Calculate", class = "btn-primary"))),
-                             column(3, div(img(src='polsl.png', align = "top", width="200%")), offset=3),
-                             
-                             br(), br(), br(),
-                             column(1, HTML(paste0("N",tags$sub("control"), ": "))),  
-                             column(2, textOutput("ncontrol"), offset=1), br(),
-                             column(1, HTML(paste0("N",tags$sub("experimental"), ": "))), 
-                             column(2, textOutput("nexp"), offset=1),
-                             column(3, div(img(src='yale.png', align = "top", width="250%")), offset=2),
-                             br(), br(), br(),
-                             out = includeHTML("www/include.html")
+                             column(3, div(img(src='polsl.png', align = "top", width="200%")), offset=3)),
+                             br(),
+                             fluidRow(column(1, HTML(paste0("N",tags$sub("control"), ": "))),  
+                             column(2, textOutput("ncontrol"), offset=1),
+                             column(3, div(img(src='yale.png', align = "top", width="230%")), offset=2)), 
+                             fluidRow(column(1, HTML(paste0("N",tags$sub("experimental"), ": "))), 
+                             column(2, textOutput("nexp"), offset=1)
+                             ),
+                             br()
                 ),
                 mainPanel(tabsetPanel(
                   tabPanel("Data", br(), h4("Patient level RCB score"),
-                           column(1, shinycssloaders::withSpinner(tableOutput("ccontents"))), 
-                           column(1, shinycssloaders::withSpinner(tableOutput("econtents")))
+                           column(1, shinycssloaders::withSpinner(tableOutput("ccontents")), color = "#708090"), 
+                           column(1, shinycssloaders::withSpinner(tableOutput("econtents")), color = "#708090"),
+                           tags$head(tags$style("#ccontents table {background-color: white; color: black; }", media="screen", type="text/css")),
+                           tags$head(tags$style("#econtents table {background-color: white; color: black; }", media="screen", type="text/css"))
                   ),
-                  tabPanel("TES Plots", shinycssloaders::withSpinner(plotOutput("plot", width = "100%", height = "100%")), 
+                  tabPanel("TES Plots", shinycssloaders::withSpinner(plotOutput("plot", width = "100%", height = "100%"), color = "#708090"), 
                           br(), 
                           fluidRow(column(10, div(shinyjs::hidden(downloadButton("downloadData1", "Download plots as pdf")), style = "float: left"),
                                           div(shinyjs::hidden(downloadButton("downloadData2", "Download plots as tiff")), style = "float: center"), 
                                           offset=1)
                                    )
-                          )
+                          ), type='pills'
                 ))
 )
