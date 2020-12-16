@@ -1,10 +1,37 @@
 tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
-my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
+my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "shinyWidgets", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
 lapply(my_packages, require, character.only = TRUE)
 
-css <- HTML(" body {
-    background-color: #FFFFFF;
-            }")
+css <- HTML("h4 {
+  color:black;
+}
+
+body {
+  background-color: #fff;
+}
+
+a {color: black;}
+a:hover{
+    color:black;}
+.tabbable > .nav > li > a                  {background-color: white;  color:black; border-color: grey;}
+.tabbable > .nav > li[class=active]    > a {background-color: white; color:black; border-color: black;}
+")
+
+# use with pills
+css2 <- HTML("h4 {
+  color:black;
+            }
+            
+            body {
+            background-color: #fff;
+            }
+            
+            a {color: black;}
+            a:hover{
+            color:black;}
+            .tabbable > .nav > li > a                  {background-color: white;  color:white;}
+            .tabbable > .nav > li[class=active]    > a {background-color: white; color:white;}
+            ")
 
 plot_theme <- theme(
                     panel.grid.major = element_line(size = 0.75), 
@@ -89,10 +116,11 @@ inf_file <- "The input file must be a txt file. It should consist of one column 
 inf_name <- "Specify the name of the treatment. This will also update the name in the results and the plot."
 exemp <- "Use the exemplary data to see the correct input files content."
 
-sidebarPanel2 <- function (..., out = NULL, width=4) 
+sidebarPanel2 <- function (..., width=4) 
 {
   div(class = paste0("col-sm-", width), 
       tags$form(class = "well", ...),
-      out
+      tags$div(
+        tags$span(style = "color: black;", includeHTML("www/include.html")))
   )
 }
