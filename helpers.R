@@ -6,7 +6,7 @@ margin-left: 1px;
 font-size: 1.2em;
 }
 .btn-done-indicator {
-color: green;
+color: #708090;
 }
 .btn-err {
 margin-top: 10px;
