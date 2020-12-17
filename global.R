@@ -2,23 +2,8 @@ tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
 my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "shinyWidgets", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
 lapply(my_packages, require, character.only = TRUE)
 
+# use with pills in tabs
 css <- HTML("h4 {
-  color:black;
-}
-
-body {
-  background-color: #fff;
-}
-
-a {color: black;}
-a:hover{
-    color:black;}
-.tabbable > .nav > li > a                  {background-color: white;  color:black; border-color: grey;}
-.tabbable > .nav > li[class=active]    > a {background-color: white; color:black; border-color: black;}
-")
-
-# use with pills
-css2 <- HTML("h4 {
   color:black;
             }
             
@@ -29,13 +14,13 @@ css2 <- HTML("h4 {
             a {color: black;}
             a:hover{
             color:black;}
-            .tabbable > .nav > li > a                  {background-color: white;  color:white;}
-            .tabbable > .nav > li[class=active]    > a {background-color: white; color:white;}
+            .tabbable > .nav > li > a                  {color:white;}
+            .tabbable > .nav > li[class=active]    > a {color:white;}
             ")
 
 plot_theme <- theme(
-                    panel.grid.major = element_line(size = 0.75), 
-                    panel.grid.minor = element_line(size=0.75),
+                    panel.grid.major = element_line(size = 1.25), 
+                    panel.grid.minor = element_line(size=1.25),
                     text = element_text(size=15)
   )
   

@@ -1,7 +1,7 @@
 source("helpers.R")
 
 ui <- fluidPage(
-                tags$head(tags$style(css2)),
+                tags$head(tags$style(css)),
                 theme = shinytheme("slate"),
                 shinyjs::useShinyjs(),
                 useShinyalert(),
