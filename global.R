@@ -101,7 +101,7 @@ inf_file <- "The input file must be a txt file. It should consist of one column 
 inf_name <- "Specify the name of the treatment. This will also update the name in the results and the plot."
 exemp <- "Use the exemplary data to see the correct input files content."
 
-sidebarPanel2 <- function (..., width=4) 
+sidebarPanel2 <- function (..., width=4, style = "position:fixed;width:inherit;") 
 {
   div(class = paste0("col-sm-", width), 
       tags$form(class = "well", ...),

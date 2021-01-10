@@ -6,7 +6,7 @@ ui <- fluidPage(
                 shinyjs::useShinyjs(),
                 useShinyalert(),
                 br(),
-                sidebarPanel2(selectInput("method", 
+                sidebarLayout(sidebarPanel2(selectInput("method", 
                                          label = "Select TES calculation method",
                                          choices = list("Weighted two-sample Kolmogorov-Smirnov test"="wKS", 
                                                         "Density ratio of RCB scores from two treatments"="DensRatio",
@@ -16,12 +16,12 @@ ui <- fluidPage(
                                                                 "Name of the control treatment", "Control")),
                              tags$div(title=inf_file, fileInput(inputId = "control_file",
                                                                 label = "Upload the RCB scores from control treatment",
-                                                                accept = c(".txt"))),
+                                                                accept = ".txt")),
                              tags$div(title=inf_name, textInput("exp_name", 
                                                                 "Name of the experimental treatment", "Experimental")),
                              tags$div(title=inf_file, fileInput(inputId = "exp_file",
                                                                 label = "Upload the RCB scores from experimental treatment",
-                                                                accept = c(".txt"))),
+                                                                accept = ".txt")),
                              fluidRow(column(3, tags$div(title=exemp, prettySwitch(inputId = "exemplary_files",
                                                                  label = "Use exemplary data instead", fill=TRUE)))),
                              fluidRow(column(3, withBusyIndicatorUI(actionButton(inputId = "generate_plot",
@@ -34,14 +34,17 @@ ui <- fluidPage(
                              fluidRow(column(1, HTML(paste0("N",tags$sub("experimental"), ": "))), 
                              column(2, textOutput("nexp"), offset=1)
                              ),
-                             br()
+                             br(),
+                             width = 4
                 ),
                 mainPanel(tabsetPanel(
-                  tabPanel("Data", br(), h4("Patient level RCB score"),
-                           column(1, shinycssloaders::withSpinner(tableOutput("ccontents")), color = "#708090"), 
-                           column(1, shinycssloaders::withSpinner(tableOutput("econtents")), color = "#708090"),
+                  tabPanel("Data", br(), h4("Patient level RCB score"), 
+                           div(style = "width:auto;height:840px;overflow-y:scroll;",
+                           column(1, shinycssloaders::withSpinner(tableOutput("ccontents"), color = "#708090")), 
+                           column(1, shinycssloaders::withSpinner(tableOutput("econtents"), color = "#708090")),
                            tags$head(tags$style("#ccontents table {background-color: white; color: black; }", media="screen", type="text/css")),
-                           tags$head(tags$style("#econtents table {background-color: white; color: black; }", media="screen", type="text/css"))
+                           tags$head(tags$style("#econtents table {background-color: white; color: black; }", media="screen", type="text/css")),
+                           column(8, ""))
                   ),
                   tabPanel("TES Plots", shinycssloaders::withSpinner(plotOutput("plot", width = "100%", height = "100%"), color = "#708090"), 
                           br(), 
@@ -50,5 +53,5 @@ ui <- fluidPage(
                                           offset=1)
                                    )
                           ), type='pills'
-                ))
+                )))
 )
