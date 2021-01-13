@@ -1,4 +1,4 @@
-w_KS_stat <- function(RCB_ctrl, RCB_exp, scale=0.5, ifplot=F, grp_ctrl_name="Control", grp_exp_name="Experimental") {
+w_KS_stat <- function(RCB_ctrl, RCB_exp, scale=0.0, ifplot=F, grp_ctrl_name="Control", grp_exp_name="Experimental") {
 # Estimate Treatment Efficacy Score (TES) using two sample weighted Kolmogorov-Smirnov test
 # by comparing RCB score from experimental treatment cohort vs control cohort and Area Beetwen CDF curves (ABC)
 #

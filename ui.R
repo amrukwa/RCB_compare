@@ -8,10 +8,11 @@ ui <- fluidPage(
                 br(),
                 sidebarLayout(sidebarPanel2(selectInput("method", 
                                          label = "Select TES calculation method",
-                                         choices = list("Weighted two-sample Kolmogorov-Smirnov test"="wKS", 
+                                         choices = list(
                                                         "Density ratio of RCB scores from two treatments"="DensRatio",
+                                                        "eCDF difference of RCB scores from two treatments"="wKS",
                                                         "Density difference of RCB scores from two treatments"= "DensDiff"),
-                                         selected = "Weighted two-sample Kolmogorov-Smirnov test"),
+                                         selected = "wKS"),
                              tags$div(title=inf_name, textInput("control_name", 
                                                                 "Name of the control treatment", "Control")),
                              tags$div(title=inf_file, fileInput(inputId = "control_file",
