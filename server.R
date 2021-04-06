@@ -34,7 +34,7 @@ server <- function(input, output, session) {
     withBusyIndicatorServer("generate_plot",
     {v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
     if (v$res_TES[["TES"]][["TES"]] >0){
-      v$caption <- paste("RMST increase:", v$res_TES[["TES"]][["TES"]]*4.952, "month(s)", sep=" ")
+      v$caption <- paste("RMST increase:", round((v$res_TES[["TES"]][["TES"]]*4.952), 2), "month(s)", sep=" ")
       v$gen <- grid.arrange(v$res_TES[["Plot1"]] + plot_theme, 
                             v$res_TES[["Plot2"]] + plot_theme+ labs(caption=v$caption) +
                               theme(plot.caption=element_text(size=18, hjust=0, margin=margin(15,15,0,0))), 
