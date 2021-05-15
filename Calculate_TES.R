@@ -3,7 +3,7 @@ calculate_TES <- function(method, ctrl, exp)
   tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
   
   n_perm <- 10000
-  n_cores <- 1
+  n_cores <- 10
   grp_ctrl_name <- names(ctrl)[1]
   grp_exp_name <- names(exp)[1]
 
