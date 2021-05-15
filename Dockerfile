@@ -1,8 +1,7 @@
-FROM rocker/shiny:4.0.3
+FROM rocker/shiny:4.0.3 as builder
 COPY  ./packrat/packrat.lock ./packrat/init.R packrat/
 RUN install2.r packrat
 RUN R -e 'packrat::restore(restart = FALSE);'
-
 
 FROM rocker/shiny:4.0.3
 # copy the app to the image
@@ -12,7 +11,7 @@ COPY *.R /srv/shiny-server/
 COPY Data /srv/shiny-server/Data
 COPY www /srv/shiny-server/www
 COPY Rscripts /srv/shiny-server/Rscripts
-COPY --from=0 packrat /srv/shiny-server/packrat
+COPY --from=builder packrat /srv/shiny-server/packrat
 
 # select port
 EXPOSE 3838
