@@ -43,7 +43,7 @@ RCB_ratio <- function(RCB_ctrl, RCB_exp, sig=10^seq(-1,0.2,length.out=50), lam=1
   # plot results
   if(ifplot){
     data_plot <- data.frame(cbind(x_new,w_hat, cdf_hat))
-    p2 <- ggplot(data_plot,aes(x=x_new, y=w_hat)) + geom_point(col="#56B4E9") + 
+    p2 <- ggplot(data_plot,aes(x=x_new, y=w_hat)) + geom_point(col="#56B4E9") +  scale_x_continuous(expand = c(0,0)) +
       labs(x="Residual Cancer Burden score", y=paste0("Density ratio\n(",grp_exp_name," vs ",grp_ctrl_name,")")) + 
       geom_hline(yintercept=1) + theme_bw() + theme(plot.title = element_text(hjust=0.5))
     

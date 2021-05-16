@@ -45,7 +45,7 @@ DensRatio <- function(RCB_ctrl, RCB_exp, n_perm = 1000, sig="auto", lam=10^seq(-
   data_plot <- data.frame(c(RCB_ctrl, RCB_exp))
   colnames(data_plot) <- "RCBscore"
   data_plot$Group <- c(rep(grp_ctrl_name,length(RCB_ctrl)), rep(grp_exp_name,length(RCB_exp)))
-  p1 <- ggplot(data_plot,aes(col=Group, x=RCBscore)) + geom_density() + 
+  p1 <- ggplot(data_plot,aes(col=Group, x=RCBscore)) + geom_density() +  scale_x_continuous(expand = c(0,0)) +
     labs(x="Residual Cancer Burden score", y="Density", 
          title=paste0("Treatment Efficacy Score = ",signif(TES,3), " (P = ",signif(TES_p,2), ")")) +
     scale_color_manual(values=c(alpha("#157525", 0.8), alpha("#CD0000", 0.8))) +

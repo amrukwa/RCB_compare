@@ -27,7 +27,7 @@ w_KS_stat <- function(RCB_ctrl, RCB_exp, scale=0.0, ifplot=F, grp_ctrl_name="Con
     data_plot$ecdf_ctrl <- ecdf_ctrl(x)
     data_plot$ecdf_exp <- ecdf_exp(x)
     data_plot$ecdf_diff <- ecdf_diff_calc
-    p <- ggplot(data_plot, aes(x=x, y=ecdf_diff)) + geom_step(col="#56B4E9") + theme_bw() +
+    p <- ggplot(data_plot, aes(x=x, y=ecdf_diff)) + geom_step(col="#56B4E9") + theme_bw() +  scale_x_continuous(expand = c(0,0)) +
       labs(x="Residual Cancer Burden score", y=paste0("Weighted eCDF difference\n(",grp_exp_name," - ",grp_ctrl_name,")")) +
       theme(plot.title=element_text(hjust=0.5)) + geom_hline(yintercept=0, col="black")
     
