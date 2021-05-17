@@ -1,13 +1,13 @@
 version: 1.1
 kind: component
-name: rcb-compare
+name: TES
 run:
   kind: service
   ports:
     - 3838
   rewritePath: true
   container:
-    image: amrukwa/rcb-compare
+    image: amrukwa/tes
     env:
       - name: APPLICATION_LOGS_TO_STDOUT
         value: 'false'  

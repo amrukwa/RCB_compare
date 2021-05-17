@@ -2,8 +2,12 @@ calculate_TES <- function(method, ctrl, exp)
 {
   tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
   
-  n_perm <- 10000
-  n_cores <- 10
+  if (method=="wKS"){
+    n_perm <- 10000
+  }else{
+    n_perm <- 1000
+  }
+  n_cores <- 15
   grp_ctrl_name <- names(ctrl)[1]
   grp_exp_name <- names(exp)[1]
 
