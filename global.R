@@ -1,5 +1,7 @@
 tmp <- sapply(paste0("./Rscripts/",list.files(path="Rscripts")), source)
-my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", "shiny", "shinyWidgets", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders")
+my_packages <- c("ggplot2","densratio","parallel","reshape","pcg","gridExtra", 
+                 "shiny", "shinyWidgets", "tools", "shinythemes", "shinyalert", "shinyjs", "shinycssloaders",
+                 "promises", "future", "ipc")
 lapply(my_packages, require, character.only = TRUE)
 
 # use with pills in tabs

@@ -28,10 +28,21 @@ Source: CRAN
 Version: 0.2.1
 Hash: 622be49032fe50bd42e96aaef613e209
 
+Package: backports
+Source: CRAN
+Version: 1.2.1
+Hash: 15f60618051e1168df663ca73497906b
+
 Package: base64enc
 Source: CRAN
 Version: 0.1-3
 Hash: c590d29e555926af053055e23ee79efb
+
+Package: base64url
+Source: CRAN
+Version: 1.4
+Hash: bb0bed97e10d3479d02264fa87bf061a
+Requires: backports
 
 Package: brio
 Source: CRAN
@@ -113,11 +124,27 @@ Source: CRAN
 Version: 1.0.1
 Hash: d272cd728e4095b3964181b44763f46c
 
+Package: filelock
+Source: CRAN
+Version: 1.0.2
+Hash: 97adcbe3b816f81113e84168d06746d8
+
+Package: future
+Source: CRAN
+Version: 1.21.0
+Hash: 0d3d84f2f3c700ca5e90301a1ae013a0
+Requires: digest, globals, listenv, parallelly
+
 Package: ggplot2
 Source: CRAN
 Version: 3.3.2
 Hash: e5836c08c1243c1fc26608f708fc1d8c
 Requires: digest, glue, gtable, isoband, rlang, scales, tibble, withr
+
+Package: globals
+Source: CRAN
+Version: 0.14.0
+Hash: f3f53bb33854c4c4da34c11ad80ee96a
 
 Package: glue
 Source: CRAN
@@ -147,6 +174,12 @@ Version: 1.5.4
 Hash: 8c8e24cfefa0977e389e458129cf96e3
 Requires: BH, R6, Rcpp, later, promises
 
+Package: ipc
+Source: CRAN
+Version: 0.1.3
+Hash: bc60a9dc66504316c376032e2e4a2415
+Requires: R6, shiny, txtq
+
 Package: isoband
 Source: CRAN
 Version: 0.2.3
@@ -175,6 +208,11 @@ Version: 0.2.0
 Hash: df8649860c43571aab68cc73a2a02807
 Requires: glue, rlang
 
+Package: listenv
+Source: CRAN
+Version: 0.8.0
+Hash: 1e47a0224c5b814c05161cf2da491b2c
+
 Package: magrittr
 Source: CRAN
 Version: 2.0.1
@@ -195,6 +233,11 @@ Package: packrat
 Source: CRAN
 Version: 0.5.0
 Hash: 498643e765d1442ba7b1160a1df3abf9
+
+Package: parallelly
+Source: CRAN
+Version: 1.25.0
+Hash: 401e72fa0560bbdf9408e8a9502fc16f
 
 Package: pcg
 Source: CRAN
@@ -247,10 +290,16 @@ Version: 3.4.5
 Hash: f136ca3e48b88288669ee4f6c2fe199a
 Requires: R6, ps
 
+Package: progressr
+Source: CRAN
+Version: 0.7.0
+Hash: d179cc5ebc9f829ee7286bb5ccb0add6
+Requires: digest
+
 Package: promises
 Source: CRAN
-Version: 1.1.1
-Hash: 0f58aaef1b398b33f902cd50cb50d2d0
+Version: 1.2.0.1
+Hash: 8cd1afd0863529e0ff0b3ff58373b258
 Requires: R6, Rcpp, later, magrittr, rlang
 
 Package: ps
@@ -349,6 +398,12 @@ Version: 3.0.4
 Hash: 2e0983335c94bafa840aae599fbf8b96
 Requires: cli, crayon, ellipsis, fansi, lifecycle, magrittr, pillar,
     pkgconfig, rlang, vctrs
+
+Package: txtq
+Source: CRAN
+Version: 0.2.4
+Hash: b959172ece6a8161a73d35f1046ce190
+Requires: R6, base64url, filelock
 
 Package: utf8
 Source: CRAN
