@@ -34,6 +34,11 @@ check_file <- function(data, name)
     shinyalert("Column Error", paste("Uploaded data -", name, "- doesn't have 1 column"),type="error")
     is_correct = FALSE
   }
+  if(any(is.na(data))){
+    shinyalert("Type Error", paste("Uploaded data -", name, "- includes NaN or NA"),type="error")
+    is_correct = FALSE
+    data <- na.omit(data)
+  }
   if(is.character(unlist(data)))
   {
     shinyalert("Type Error", paste("Uploaded data -", name, "- includes characters"),type="error")
