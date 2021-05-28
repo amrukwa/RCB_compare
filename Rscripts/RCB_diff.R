@@ -108,7 +108,7 @@ RCB_diff <- function(RCB_ctrl, RCB_exp, fold=5, sig=10^seq(-1,0.2,length.out=50)
   if(ifplot){
     data_plot <- data.frame(cbind(RCB_tmp,w_hat))
     p <- ggplot(data_plot,aes(x=RCB_tmp, y=w_hat)) + geom_point(col="#56B4E9") +  scale_x_continuous(expand = c(0,0)) +
-      labs(x="RCBscore", y=paste0("Density difference\n(",grp_exp_name," - ",grp_ctrl_name,")")) + 
+      labs(x="Residual Cancer Burden score", y=paste0("Density difference\n(",grp_exp_name," - ",grp_ctrl_name,")")) + 
       geom_hline(yintercept=0) + theme_bw() + theme(plot.title = element_text(hjust=0.5))
     
     res <- list()
