@@ -33,11 +33,13 @@ server <- function(input, output, session) {
   output$ncontrol <- renderText({crow()})
   output$nexp <- renderText({erow()})
   # calculate and show TES, plot
+  # here check futures
   output$plot <- renderPlot({
     validate(need(tables$used_edata, "Specify the correct experimental treatment."), need(tables$used_cdata, "Specify the correct control treatment."))
     withBusyIndicatorServer("generate_plot",
-    {v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
-    if (v$res_TES[["TES"]][["TES"]] >0){
+    {
+      v$res_TES <- calculate_TES(v$method, tables$used_cdata, tables$used_edata)
+    if (v$res_TES[["TES"]][["TES"]] >0 & v$method == "wKS"){
       v$caption <- paste("Predicted increase of 3-year RMST:", round((v$res_TES[["TES"]][["TES"]]*4.952), 2), "month(s)", sep=" ")
       v$gen <- grid.arrange(v$res_TES[["Plot1"]] + plot_theme,
                             v$res_TES[["Plot2"]] + plot_theme+ labs(caption=v$caption) +
@@ -86,45 +88,5 @@ server <- function(input, output, session) {
   })
 }
 
-
-
-# plan(multisession)
-# 
-# server <- function(input, output, session) {
-#   
-#   observeEvent(input$go, {
-#     
-#     progress = AsyncProgress$new(message="Complex analysis")
-#     
-#     future({
-#       for (i in 1:15) {
-#         progress$inc(1/15)
-#         Sys.sleep(0.5)
-#       }
-#       
-#       progress$close()
-#       return(i)
-#     })%...>%
-#       cat(.,"\n")
-#     
-#     Sys.sleep(1)
-#     
-#     progress2 = AsyncProgress$new(message="Complex analysis")
-#     
-#     future({
-#       for (i in 1:5) {
-#         progress2$inc(1/5)
-#         Sys.sleep(0.5)
-#       }
-#       
-#       progress2$close()
-#       
-#       return(i)
-#     })%...>%
-#       cat(.,"\n")
-#     
-#     NULL
-#   })
-# }
 
 shinyApp(ui = ui, server = server)
